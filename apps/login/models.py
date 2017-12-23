@@ -29,7 +29,7 @@ class UserManager(models.Manager):
     def validate_registration(self, post_data):
         errors = []
         # check length of name fields
-        if len(post_data['name']) < 2 or len(post_data['alias']) < 2:
+        if len(post_data['name']) < 3 or len(post_data['alias']) < 2:
             errors.append("name fields must be at least 3 characters")
         # check length of name password
         if len(post_data['password']) < 8:
@@ -48,8 +48,7 @@ class UserManager(models.Manager):
             errors.append("passwords do not match")
 
         if not errors:
-            # make our new user
-            # hash password
+            #make user and hash password
             hashed = bcrypt.hashpw((post_data['password'].encode()), bcrypt.gensalt(5))
 
             new_user = self.create(
